@@ -124,11 +124,12 @@ class CBSS:
         # Extend signals and subtract the mean and cut the edges
         print(f"[INFO] Extending signals by factor {self.ext_fact}...")
         ext_sig = extension(sig, self.ext_fact)
-        ext_sig -= np.mean(ext_sig, axis=1, keepdims=True)
 
         # Remove the edges from the exteneded signal
         ext_sig[:, : self.ext_fact * 2] = 0
         ext_sig[:, -self.ext_fact * 2 :] = 0
+
+        ext_sig -= np.mean(ext_sig, axis=1, keepdims=True)
         
         # Whiten the extended signals
         white_sig, Z = whitening(Y=ext_sig, method=self.whitening_method,
