@@ -197,7 +197,7 @@ def decompose_cbss(
         data = data[:, int(start_time):int(end_time)]
 
         # Initialize and run CBSS with config
-        cbss = CBSSLK(config=SimpleNamespace(**algo_cfg))
+        cbss = CBSS(config=SimpleNamespace(**algo_cfg))
         sources, spikes, sil, mu_filters , Z , centroids = cbss.decompose(
             data, fsamp=algo_cfg["sampling_frequency"]
         )

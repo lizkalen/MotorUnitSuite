@@ -213,12 +213,13 @@ class CBSS:
             # Peel-off the detected source (skip if early stopped or firing rate too low)
             if self.peel_off and self.fr_peeloff:
                 print(f"FR peel-off enabled")
+                if self.verbose_mode:
+                    print(f"{i}: PEEL-OFF - Silhouette: {sil[i]:.3f} (threshold: {self.sil_th:.3f}), "
+                        f"CoV: {cov:.3f} (threshold: {self.cov_th:.3f}), FR: {fr:.2f} Hz, "
+                        f"Spikes: {len(spikes[i])}")
                 if sil[i] > self.sil_th and cov < self.cov_th and fr >= self.min_firing_rate and not early_stopped:
                     white_sig, _, _ = peel_off(white_sig, spikes[i], win=0.04, fsamp=fsamp)
-                    if self.verbose_mode:
-                        print(f"{i}: PEEL-OFF - Silhouette: {sil[i]:.3f} (threshold: {self.sil_th:.3f}), "
-                            f"CoV: {cov:.3f} (threshold: {self.cov_th:.3f}), FR: {fr:.2f} Hz, "
-                            f"Spikes: {len(spikes[i])}")
+                    
             elif self.peel_off and sil[i] > self.sil_th and cov < self.cov_th:
                 print(f"FR peel-off disabled")
                 white_sig, _, _ = peel_off(white_sig, spikes[i], win=0.04, fsamp=fsamp)
